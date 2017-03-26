@@ -106,7 +106,6 @@ export default class ResultView extends React.Component {
         <div style={{width: '100%', boxSizing: 'border-box'}}>
           <ReactTable
             loading={loading}
-            noDataText={() => <div style={{margin: -20}}></div>}
             className="-striped -highlight"
             data={data}
             columns={columns}
