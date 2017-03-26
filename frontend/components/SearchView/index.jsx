@@ -5,29 +5,46 @@ import searchRules from './searchRules';
 export default class SearchView extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      query: '@justinbieber marry me',
+    }
     this.handleClick = this.handleClick.bind(this);
   }
 
   handleClick(e) {
     e.preventDefault();
-    this.props.handleClick(e);
+    this.props.handleClick(this.state.query);
+  }
+
+  handleChange(prop) {
+    return e => {
+      e.preventDefault();
+      const { value } = e.currentTarget;
+      this.setState({ [prop]: value });
+    };
   }
 
   render() {
-    const { handleClick } = this.props;
+    const searchBar = (
+      <input
+        value={this.state.query}
+        onChange={this.handleChange('query')}
+        type="text"
+        style={{width: '100%', maxWidth: '500px', height: '20px'}}
+      />
+    )
 
-    const style = {
-      display: 'inline-block',
-      width: '300px',
-      padding: 10,
-      backgroundColor: 'lightgreen'
-    }
+    const searchButton = (
+      <button style={{marginLeft: '20px', height: '20px'}} onClick={this.handleClick}>SEARCH</button>
+    )
 
     return (
-      <div style={{float: 'left', width: '40%'}}>
-        <h1>Search Rules</h1>
-        <SearchParameterList searchRules={searchRules}/>
-        <button onClick={this.handleClick}>SEARCH</button>
+      <div style={{marginBottom: 20}}>
+        <h1 style={{textAlign: 'center'}}>Search Tweets</h1>
+        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+          {searchBar}
+          {searchButton}
+        </div>
       </div>
     )
   }

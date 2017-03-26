@@ -21,6 +21,7 @@
     "bootstrap": "^3.3.7",
     "css-loader": "^0.27.3",
     "dateformat": "^2.0.0",
+    "json2xls": "^0.1.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-table": "^5.3.4",

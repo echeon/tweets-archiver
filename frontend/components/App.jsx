@@ -13,36 +13,32 @@ export default class App extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  componentDidMount() {
-    this.fetchSearchResult();
-  }
-
-  fetchSearchResult() {
-    fetch('/api/search_tweets')
-    .then(res => res.json())
+  fetchSearchResult(query) {
+    $.ajax({
+      method: 'GET',
+      url: '/api/search_tweets',
+      data: { query },
+    })
     .then(tweets => {
-      this.setState({ tweets });
-      // console.log(JSON.stringify(tweets));
+      this.setState({ tweets, loading: false });
     })
   }
 
-  handleClick() {
-    // this.fetchSearchResult();
+  handleClick(query) {
+    this.setState({ loading: true });
+    this.fetchSearchResult(query);
   }
 
   render() {
     const style = {
       // display: 'flex',
       // flexDirection: 'flex-row',
-      // width: '100%',
-      height: '100%',
-      border: '3px solid blue',
     }
 
     return (
-      // <SearchView handleClick={this.handleClick}/>
       <div style={style}>
-        <ResultView tweets={this.state.tweets}/>
+        <SearchView handleClick={this.handleClick}/>
+        <ResultView loading={this.state.loading} tweets={this.state.tweets}/>
       </div>
     )
   }

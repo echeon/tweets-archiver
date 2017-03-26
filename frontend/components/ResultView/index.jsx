@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, Column, AutoSizer } from 'react-virtualized';
 import ReactTable from 'react-table';
-import data from './data';
+// import data from './data';
 import dateFormat from 'dateformat';
 
 const columns = [
@@ -99,17 +99,19 @@ export default class ResultView extends React.Component {
   }
 
   render() {
-    console.log(data);
+    const { tweets: data, loading } = this.props;
 
     return (
       <div>
-        <div style={{width: '100%', border: '5px solid red'}}>
-            <ReactTable
-              className="-striped -highlight"
-              data={data}
-              columns={columns}
-              defaultPageSize={10}
-            />
+        <div style={{width: '100%', boxSizing: 'border-box'}}>
+          <ReactTable
+            loading={loading}
+            noDataText={() => <div style={{margin: -20}}></div>}
+            className="-striped -highlight"
+            data={data}
+            columns={columns}
+            defaultPageSize={10}
+          />
         </div>
       </div>
     )

@@ -19,8 +19,7 @@ export default class SearchParameterList extends React.Component {
     const { searchRules } = this.props;
 
     const style = {
-      width: '100%',
-      backgroundColor: 'green'
+      padding: 10,
     }
 
     return (
