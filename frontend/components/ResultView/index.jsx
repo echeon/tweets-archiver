@@ -107,16 +107,24 @@ export default class ResultView extends React.Component {
   }
 
   render() {
-    // const { tweets: data, loading } = this.props;
+    const { loading } = this.props;
     const { tableWidth, tableHeight, columnWidths, colSortDirs, sortedData } = this.state;
-    
+
     return (
       <div id="table-wrapper" style={{width: '100%'}}>
+        <div>
+          {
+            loading ?
+            <h3 style={{textAlign: 'center'}}>Loading...</h3> :
+            <h3 style={{textAlign: 'center'}}>{this.data.length} tweets found.</h3>
+          }
+          <h4 style={{fontWeight: 'normal', textAlign: 'center'}}>(Click column name to sort. Only <em>#Followers</em> and <em>#Follows</em> are supported now.)</h4>
+        </div>
         <Table
           rowHeight={50}
           rowsCount={this.data.length}
           width={tableWidth}
-          height={tableHeight}
+          height={500}
           groupHeaderHeight={50}
           headerHeight={50}
           onColumnResizeEndCallback={this._onColumnResizeEndCallback}

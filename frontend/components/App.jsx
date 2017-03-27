@@ -34,7 +34,10 @@ export default class App extends React.Component {
     return (
       <div style={style}>
         <SearchView handleClick={this.handleClick}/>
-        <ResultView loading={this.state.loading} tweets={this.state.tweets}/>
+        <ResultView
+          loading={this.state.loading}
+          tweets={this.state.tweets}
+        />
       </div>
     )
   }
