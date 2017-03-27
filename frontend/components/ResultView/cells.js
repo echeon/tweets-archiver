@@ -1,10 +1,8 @@
 import React from 'react';
 import { Cell } from 'fixed-data-table-2';
 import dateFormat from 'dateformat';
+import { getValue } from './helpers';
 
-const getValue = (data, accessor) => {
-  return accessor.reduce((acc, key) => acc[key], data);
-};
 
 export const TextCell = ({data, rowIndex, accessor, ...props}) => {
   const value = getValue(data[rowIndex], accessor);

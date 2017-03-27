@@ -31,7 +31,6 @@ export default class App extends React.Component {
       // display: 'flex',
       // flexDirection: 'flex-row',
     }
-
     return (
       <div style={style}>
         <SearchView handleClick={this.handleClick}/>
