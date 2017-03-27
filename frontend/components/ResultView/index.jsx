@@ -8,27 +8,38 @@ export default class ResultView extends React.Component {
     super();
     this.state = {
       cellWidth: 100,
-      width: 1000,
+      tableWidth: 1000,
+      tableHeight: 1000,
     }
-    this.makeItBigger = this.makeItBigger.bind(this);
+    this.updateTableSize = this.updateTableSize.bind(this);
   }
 
-  makeItBigger() {
-    this.setState({
-      width: this.state.width + 100
-    })
+  componentDidMount() {
+    this.updateTableSize();
+    $(window).on('resize', () => { this.updateTableSize(); });
   }
+
+  componentWillUnmount() {
+    $(window).off('resize');
+  }
+
+  updateTableSize() {
+    const tableWidth = $('#table-wrapper').width();
+    const tableHeight = $('#table-wrapper').height();
+    this.setState({ tableWidth, tableHeight });
+  }
+
 
   render() {
     // const { tweets: data, loading } = this.props;
     return (
-      <div style={{width: '100%'}}>
+      <div id="table-wrapper" style={{width: '100%', border: '3px solid red', boxSizing: 'border-box'}}>
         <button onClick={this.makeItBigger}></button>
         <Table
           rowHeight={50}
           rowsCount={data.length}
-          width={this.state.width}
-          height={1000}
+          width={this.state.tableWidth}
+          height={this.state.tableHeight}
           groupHeaderHeight={50}
           headerHeight={50}
         >
