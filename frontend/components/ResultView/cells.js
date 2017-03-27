@@ -5,7 +5,16 @@ import { getValue } from './helpers';
 
 
 export const TextCell = ({data, rowIndex, accessor, ...props}) => {
-  const value = getValue(data[rowIndex], accessor);
+  const row = data[rowIndex];
+  const value = getValue(row, accessor);
+  // if (typeof accessor === 'function') {
+  //   value = accessor(row)
+  // } else if (typeof accessor === 'array') {
+  //   value = getNestedValue(row, accessor);
+  // } else if (typeof accessor === 'string') {
+  //   value = row[accessor];
+  // }
+  // const value = getNestedValue(row, accessor);
   return (
     <Cell {...props}>{value}</Cell>
   )

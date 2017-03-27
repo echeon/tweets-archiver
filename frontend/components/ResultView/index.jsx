@@ -3,7 +3,7 @@ import data from './sampleData';
 import { Table, ColumnGroup, Column, Cell } from 'fixed-data-table-2';
 import { TextCell, DateCell, TimeCell, BoolCell, LinkCell } from './cells';
 import { sortTypes, SortHeaderCell } from './headerCells';
-import { getValue, sortArrayByIndexes } from './helpers';
+import { getValue, sortArrayByIndexes, spaceship } from './helpers';
 
 const DEFAULT_COLUMN_WIDTH = 100;
 
@@ -82,20 +82,11 @@ export default class ResultView extends React.Component {
   _onSortChange(columnKey, sortDir, accessor) {
     let sortIndexes = this.defaultSortIndexes.slice();
     sortIndexes.sort((rowIndexA, rowIndexB) => {
-      let valueA = getValue(this.data[rowIndexA], accessor);
-      let valueB = getValue(this.data[rowIndexB], accessor);
-      let sortVal = 0;
-      if (valueA > valueB) {
-        sortVal = 1;
-      }
-      if (valueA < valueB) {
-        sortVal = -1;
-      }
-      if (sortVal !== 0 && sortDir === sortTypes.ASC) {
-        sortVal = sortVal * -1;
-      }
+      const valueA = accessor(this.data[rowIndexA]);
+      const valueB = accessor(this.data[rowIndexB]);
 
-      return sortVal;
+      const x = spaceship(valueA, valueB);
+      return sortDir === sortTypes.ASC ? x : -x;
     });
 
     this.setState({
@@ -191,7 +182,7 @@ export default class ResultView extends React.Component {
                 <SortHeaderCell
                   onSortChange={this._onSortChange}
                   sortDir={colSortDirs.numFollowers}
-                  accessor={['user', 'followers_count']}
+                  accessor={d => d.user.followers_count}
                 >
                   # Followers
                 </SortHeaderCell>}
@@ -206,7 +197,7 @@ export default class ResultView extends React.Component {
                 <SortHeaderCell
                   onSortChange={this._onSortChange}
                   sortDir={colSortDirs.numFollows}
-                  accessor={['user', 'friends_count']}
+                  accessor={d => d.user.friends_count}
                 >
                   # Follows
                 </SortHeaderCell>
