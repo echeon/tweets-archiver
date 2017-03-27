@@ -1,7 +1,7 @@
 import React from 'react';
 import data from './data';
 import { Table, ColumnGroup, Column, Cell } from 'fixed-data-table-2';
-import { TextCell, DateCell, TimeCell, BoolCell } from './cells';
+import { TextCell, DateCell, TimeCell, BoolCell, LinkCell } from './cells';
 
 export default class ResultView extends React.Component {
   constructor() {
@@ -54,7 +54,7 @@ export default class ResultView extends React.Component {
               header={<Cell>Screen Name</Cell>}
               width={this.state.cellWidth}
               flexGrow={1}
-              cell={<TextCell data={data} accessor={['user', 'screen_name']}/>}
+              cell={<LinkCell data={data} accessor={['user', 'screen_name']} linkType='user'/>}
             />
             <Column
               columnKey="name"
@@ -68,7 +68,7 @@ export default class ResultView extends React.Component {
               header={<Cell>Tweet Text</Cell>}
               width={this.state.cellWidth}
               flexGrow={5}
-              cell={<TextCell data={data} accessor={['text']}/>}
+              cell={<LinkCell data={data} accessor={['text']} linkType='tweet'/>}
             />
             <Column
               columnKey="numRetweets"
