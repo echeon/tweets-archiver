@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import ResultView from './ResultView';
 import SearchView from './SearchView';
+import * as API from '../util/api_util';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -14,11 +15,7 @@ export default class App extends React.Component {
   }
 
   fetchSearchResult(query) {
-    $.ajax({
-      method: 'GET',
-      url: '/api/search_tweets',
-      data: { query },
-    })
+    API.fetchTweets(query)
     .then(tweets => {
       this.setState({ tweets, loading: false });
     })
