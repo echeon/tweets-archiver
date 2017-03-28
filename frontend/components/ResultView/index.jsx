@@ -82,8 +82,8 @@ export default class ResultView extends React.Component {
   _onSortChange(columnKey, sortDir, accessor) {
     let sortIndexes = this.defaultSortIndexes.slice();
     sortIndexes.sort((rowIndexA, rowIndexB) => {
-      const valueA = accessor(this.data[rowIndexA]);
-      const valueB = accessor(this.data[rowIndexB]);
+      const valueA = getValue(this.data[rowIndexA], accessor);
+      const valueB = getValue(this.data[rowIndexB], accessor);
 
       const x = spaceship(valueA, valueB);
       return sortDir === sortTypes.ASC ? x : -x;
