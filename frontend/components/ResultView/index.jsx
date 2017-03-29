@@ -109,7 +109,7 @@ export default class ResultView extends React.Component {
             <h3 style={{textAlign: 'center'}}>Loading...</h3> :
             <h3 style={{textAlign: 'center'}}>{this.data.length} tweets found.</h3>
           }
-          <h4 style={{fontWeight: 'normal', textAlign: 'center'}}>(Click column name to sort. Only <em>#Followers</em> and <em>#Follows</em> are supported now.)</h4>
+          <h4 style={{fontWeight: 'normal', textAlign: 'center'}}>(Click column name to sort. Only <em>#Retweets</em>, <em>#Followers</em> and <em>#Follows</em> are supported at the moment.)</h4>
         </div>
         <Table
           rowHeight={50}
@@ -130,7 +130,7 @@ export default class ResultView extends React.Component {
               isResizable={true}
               width={columnWidths.dateCreated}
               flexGrow={1}
-              cell={<DateCell data={sortedData} accessor={['created_at']}/>}
+              cell={<TextCell data={sortedData} accessor={['date_created']}/>}
             />
             <Column
               columnKey="timeCreated"
@@ -138,7 +138,7 @@ export default class ResultView extends React.Component {
               isResizable={true}
               width={columnWidths.timeCreated}
               flexGrow={1}
-              cell={<TimeCell data={sortedData} accessor={['created_at']}/>}
+              cell={<TextCell data={sortedData} accessor={['time_created']}/>}
             />
             <Column
               columnKey="screenName"
@@ -146,7 +146,7 @@ export default class ResultView extends React.Component {
               isResizable={true}
               width={columnWidths.screenName}
               flexGrow={1}
-              cell={<LinkCell data={sortedData} accessor={['user', 'screen_name']} linkType='user'/>}
+              cell={<LinkCell data={sortedData} accessor={['screen_name']} linkType='user'/>}
             />
             <Column
               columnKey="name"
@@ -154,23 +154,31 @@ export default class ResultView extends React.Component {
               isResizable={true}
               width={columnWidths.name}
               flexGrow={1}
-              cell={<TextCell data={sortedData} accessor={['user', 'name']}/>}
+              cell={<TextCell data={sortedData} accessor={['user_name']}/>}
             />
             <Column
               columnKey="tweetText"
-              header={<Cell>Tweet Text</Cell>}
+              header={<Cell>Tweet</Cell>}
               isResizable={true}
               width={columnWidths.tweetText}
               flexGrow={5}
-              cell={<LinkCell data={sortedData} accessor={['text']} linkType='tweet'/>}
+              cell={<LinkCell data={sortedData} accessor={['tweet']} linkType='tweet'/>}
             />
             <Column
               columnKey="numRetweets"
-              header={<Cell># Retweets</Cell>}
+              header={
+                <SortHeaderCell
+                  onSortChange={this._onSortChange}
+                  sortDir={colSortDirs.numRetweets}
+                  accessor={d => d.number_retweets}
+                >
+                  # Retweets
+                </SortHeaderCell>
+              }
               isResizable={true}
               width={columnWidths.numRetweets}
               flexGrow={1}
-              cell={<TextCell data={sortedData} accessor={['retweet_count']}/>}
+              cell={<TextCell data={sortedData} accessor={['number_retweets']}/>}
             />
           </ColumnGroup>
           <ColumnGroup
@@ -182,14 +190,14 @@ export default class ResultView extends React.Component {
                 <SortHeaderCell
                   onSortChange={this._onSortChange}
                   sortDir={colSortDirs.numFollowers}
-                  accessor={d => d.user.followers_count}
+                  accessor={d => d.number_followers}
                 >
                   # Followers
                 </SortHeaderCell>}
               isResizable={true}
               width={columnWidths.numFollowers}
               flexGrow={1}
-              cell={<TextCell data={sortedData} accessor={['user', 'followers_count']}/>}
+              cell={<TextCell data={sortedData} accessor={['number_followers']}/>}
             />
             <Column
               columnKey="numFollows"
@@ -197,7 +205,7 @@ export default class ResultView extends React.Component {
                 <SortHeaderCell
                   onSortChange={this._onSortChange}
                   sortDir={colSortDirs.numFollows}
-                  accessor={d => d.user.friends_count}
+                  accessor={d => d.number_follows}
                 >
                   # Follows
                 </SortHeaderCell>
@@ -205,7 +213,7 @@ export default class ResultView extends React.Component {
               isResizable={true}
               width={columnWidths.numFollows}
               flexGrow={1}
-              cell={<TextCell data={sortedData} accessor={['user', 'friends_count']}/>}
+              cell={<TextCell data={sortedData} accessor={['number_follows']}/>}
             />
             <Column
               columnKey="numFavorites"
@@ -213,7 +221,7 @@ export default class ResultView extends React.Component {
               isResizable={true}
               width={columnWidths.numFavorites}
               flexGrow={1}
-              cell={<TextCell data={sortedData} accessor={['user', 'favourites_count']}/>}
+              cell={<TextCell data={sortedData} accessor={['number_favorites']}/>}
             />
             <Column
               columnKey="verified"
@@ -229,7 +237,7 @@ export default class ResultView extends React.Component {
               isResizable={true}
               width={columnWidths.memberSince}
               flexGrow={1}
-              cell={<DateCell data={sortedData} accessor={['user', 'created_at']}/>}
+              cell={<DateCell data={sortedData} accessor={['member_since']}/>}
             />
             <Column
               columnKey="location"
@@ -237,7 +245,7 @@ export default class ResultView extends React.Component {
               isResizable={true}
               width={columnWidths.location}
               flexGrow={1}
-              cell={<TextCell data={sortedData} accessor={['user', 'location']}/>}
+              cell={<TextCell data={sortedData} accessor={['user_location']}/>}
             />
             <Column
               columnKey="bio"
@@ -245,9 +253,10 @@ export default class ResultView extends React.Component {
               isResizable={true}
               width={columnWidths.bio}
               flexGrow={1}
-              cell={<TextCell data={sortedData} accessor={['user', 'description']}/>}
+              cell={<TextCell data={sortedData} accessor={['user_description']}/>}
             />
           </ColumnGroup>
+
         </Table>
       </div>
     )

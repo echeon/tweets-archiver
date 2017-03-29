@@ -12,17 +12,27 @@ export default class App extends React.Component {
       tweets: [],
     }
     this.handleClick = this.handleClick.bind(this);
+    this.fetchSearchResult = this.fetchSearchResult.bind(this);
+    this.searchAndDownload = this.searchAndDownload.bind(this);
   }
 
   fetchSearchResult(query) {
     API.fetchTweets(query)
+    .then(tweets => {
+      console.log("time", Date.now() - this.state.now);
+      this.setState({ tweets, loading: false });
+    })
+  }
+
+  searchAndDownload(query) {
+    API.fetchAndDownload(query)
     .then(tweets => {
       this.setState({ tweets, loading: false });
     })
   }
 
   handleClick(query) {
-    this.setState({ loading: true });
+    this.setState({ loading: true, now: Date.now() });
     this.fetchSearchResult(query);
   }
 

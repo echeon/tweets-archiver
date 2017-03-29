@@ -45,7 +45,7 @@ export const LinkCell = ({data, rowIndex, accessor, linkType, ...props}) => {
     case 'tweet':
       return (
         <Cell {...props}>
-          <a href={`https://twitter.com/${data[rowIndex].user.screen_name}/status/${data[rowIndex].id_str}`} target="_blank">{value}</a>
+          <a href={`https://twitter.com/${data[rowIndex].screen_name}/status/${data[rowIndex].tweet_id}`} target="_blank">{value}</a>
         </Cell>
       );
     default:

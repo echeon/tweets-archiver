@@ -38,12 +38,17 @@ export default class SearchView extends React.Component {
       <button style={{marginLeft: '20px', height: '20px'}} onClick={this.handleClick}>SEARCH</button>
     )
 
+    const searchAndDownloadButton = (
+      <button style={{marginLeft: '20px', height: '20px'}} onClick={this.handleClick}>SEARCH & DOWNLOAD</button>
+    )
+
     return (
       <div style={{marginBottom: 20}}>
         <h1 style={{textAlign: 'center'}}>Search Tweets</h1>
         <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
           {searchBar}
           {searchButton}
+          {searchAndDownloadButton}
         </div>
       </div>
     )
