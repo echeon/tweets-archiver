@@ -37,13 +37,13 @@ export default class App extends React.Component {
   }
 
   render() {
-    const style = {
-      // display: 'flex',
-      // flexDirection: 'flex-row',
-    }
     return (
-      <div style={style}>
-        <SearchView handleClick={this.handleClick}/>
+      <div className='main-container'>
+        <SearchView
+          loading={this.state.loading}
+          numTweets={this.state.tweets.length}
+          handleClick={this.handleClick}
+        />
         <ResultView
           loading={this.state.loading}
           tweets={this.state.tweets}

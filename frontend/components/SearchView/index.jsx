@@ -25,32 +25,41 @@ export default class SearchView extends React.Component {
   }
 
   render() {
+    const { loading, numTweets } = this.props;
+
     const searchBar = (
       <input
         value={this.state.query}
         onChange={this.handleChange('query')}
         type="text"
-        style={{width: '100%', maxWidth: '500px', height: '20px'}}
       />
     )
 
     const searchButton = (
-      <button style={{marginLeft: '20px', height: '20px'}} onClick={this.handleClick}>SEARCH</button>
+      <button onClick={this.handleClick}>SEARCH</button>
     )
 
     const searchAndDownloadButton = (
-      <button style={{marginLeft: '20px', height: '20px'}} onClick={this.handleClick}>SEARCH & DOWNLOAD</button>
+      <button onClick={this.handleClick}>SEARCH & DOWNLOAD</button>
     )
 
     return (
-      <div style={{marginBottom: 20}}>
-        <h1 style={{textAlign: 'center'}}>Search Tweets</h1>
-        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+      <aside className='search-pane' style={{marginBottom: 20}}>
+        <h1>Search Tweets</h1>
+        <div>
           {searchBar}
           {searchButton}
           {searchAndDownloadButton}
         </div>
-      </div>
+        <div>
+          {
+            loading ?
+            <h3>Loading...</h3> :
+            <h3>{numTweets} tweets found.</h3>
+          }
+          <h4>(Click column name to sort. Only <em>#Retweets</em>, <em>#Followers</em> and <em>#Follows</em> are supported at the moment.)</h4>
+        </div>
+      </aside>
     )
   }
 }

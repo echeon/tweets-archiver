@@ -18,12 +18,8 @@ export default class SearchParameterList extends React.Component {
   render() {
     const { searchRules } = this.props;
 
-    const style = {
-      padding: 10,
-    }
-
     return (
-      <div style={style}>
+      <div>
         <form>
           {searchRules.map(this.renderSearchRule)}
         </form>

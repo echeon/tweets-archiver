@@ -102,20 +102,12 @@ export default class ResultView extends React.Component {
     const { tableWidth, tableHeight, columnWidths, colSortDirs, sortedData } = this.state;
 
     return (
-      <div id="table-wrapper" style={{width: '100%'}}>
-        <div>
-          {
-            loading ?
-            <h3 style={{textAlign: 'center'}}>Loading...</h3> :
-            <h3 style={{textAlign: 'center'}}>{this.data.length} tweets found.</h3>
-          }
-          <h4 style={{fontWeight: 'normal', textAlign: 'center'}}>(Click column name to sort. Only <em>#Retweets</em>, <em>#Followers</em> and <em>#Follows</em> are supported at the moment.)</h4>
-        </div>
+      <section className="result-pane" id="table-wrapper">
         <Table
           rowHeight={50}
           rowsCount={this.data.length}
           width={tableWidth}
-          height={500}
+          height={tableHeight}
           groupHeaderHeight={50}
           headerHeight={50}
           onColumnResizeEndCallback={this._onColumnResizeEndCallback}
@@ -258,7 +250,7 @@ export default class ResultView extends React.Component {
           </ColumnGroup>
 
         </Table>
-      </div>
+      </section>
     )
   }
 }
