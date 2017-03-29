@@ -36,7 +36,7 @@ export default class SearchView extends React.Component {
     )
 
     const searchButton = (
-      <button onClick={this.handleClick}>SEARCH</button>
+      <button className="btn btn-primary" onClick={this.handleClick}>SEARCH</button>
     )
 
     const searchAndDownloadButton = (
@@ -44,21 +44,31 @@ export default class SearchView extends React.Component {
     )
 
     return (
-      <aside className='search-pane' style={{marginBottom: 20}}>
-        <h1>Search Tweets</h1>
-        <div>
-          {searchBar}
+      <aside className='search-pane'>
+        <article>
+          <h1>Search Tweets</h1>
+          <br/>
+          <div>
+            {searchBar}
+            <br/>
+            <br/>
+            <br/>
+            {false ? searchAndDownloadButton : null}
+            <br/><br/><br/>
+          </div>
+          <div>
+            {
+              loading ?
+              <h3>Loading...</h3> :
+              <h3>{numTweets} tweets found.</h3>
+            }
+            <br/>
+            <h4>(Click column name to sort. Only <em>#Retweets</em>, <em>#Followers</em> and <em>#Follows</em> are supported at the moment.)</h4>
+          </div>
+        </article>
+        <section>
           {searchButton}
-          {searchAndDownloadButton}
-        </div>
-        <div>
-          {
-            loading ?
-            <h3>Loading...</h3> :
-            <h3>{numTweets} tweets found.</h3>
-          }
-          <h4>(Click column name to sort. Only <em>#Retweets</em>, <em>#Followers</em> and <em>#Follows</em> are supported at the moment.)</h4>
-        </div>
+        </section>
       </aside>
     )
   }

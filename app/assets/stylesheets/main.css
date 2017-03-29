@@ -3,25 +3,20 @@ html, body, #root, .main-container, .search-pane, .result-pane {
   width: 100%;
 }
 
-body {
-  overflow: hidden;
-}
-
 .main-container {
-  border: 3px solid red;
   box-sizing: border-box;
   display: flex;
-  flex-direction: row;
 }
 
 .search-pane {
   width: 300px;
-  border: 3px solid blue;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .result-pane {
   width: 500px;
-  border: 3px solid green;
   display: flex;
   flex: 1;
 }
