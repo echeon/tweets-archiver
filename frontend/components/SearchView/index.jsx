@@ -73,6 +73,7 @@ export default class SearchView extends React.Component {
             <div class="form-group">
               <label for="search-query">
                 <input onChange={this.handleChange('query')} class="form-control" type="text" value={query} id="search-query" placeholder="Search"/>
+                <small><a href="https://dev.twitter.com/rest/public/search">Search Help from Twitter</a></small>
               </label>
             </div>
             <div class="form-group">
