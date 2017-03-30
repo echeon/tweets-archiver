@@ -7,13 +7,17 @@ export default class SearchView extends React.Component {
     super(props);
     this.state = {
       query: '@justinbieber marry me',
+      since: '',
+      until: '',
     }
     this.handleClick = this.handleClick.bind(this);
+    this.generateQuery = this.generateQuery.bind(this);
   }
 
   handleClick(e) {
     e.preventDefault();
-    this.props.handleClick(this.state.query);
+    const query = this.generateQuery();
+    this.props.handleClick(query);
   }
 
   handleChange(prop) {
@@ -22,6 +26,18 @@ export default class SearchView extends React.Component {
       const { value } = e.currentTarget;
       this.setState({ [prop]: value });
     };
+  }
+
+  generateQuery() {
+    const { query, since, until } = this.state;
+    let finalQuery = [query];
+    if (since !== '') {
+      finalQuery.push(`since:${since}`);
+    };
+    if (until !== '') {
+      finalQuery.push(`until:${until}`);
+    };
+    return finalQuery.join(' ');
   }
 
   render() {
@@ -36,38 +52,54 @@ export default class SearchView extends React.Component {
     )
 
     const searchButton = (
-      <button className="btn btn-primary" onClick={this.handleClick}>SEARCH</button>
+      <button type="button" className="btn btn-primary btn-block" onClick={this.handleClick} disabled={loading}>SEARCH</button>
     )
 
-    const searchAndDownloadButton = (
-      <button onClick={this.handleClick}>SEARCH & DOWNLOAD</button>
+    const downloadButton = (
+      <button type="button" className="btn btn-success btn-block" onClick={this.handleClick} disabled={true}>DOWNLOAD</button>
     )
+
+    const resetButton = (
+      <button type="button" className="btn btn-danger btn-block" onClick={this.handleClick} disabled={true}>RESET</button>
+    )
+
+    const { query, since, until } = this.state;
 
     return (
       <aside className='search-pane'>
+        <h1 style={{fontFamily: 'Cabin Sketch', textAlign: 'center', fontWeight: 700}}>Search Tweets</h1>
         <article>
-          <h1>Search Tweets</h1>
-          <br/>
-          <div>
-            {searchBar}
-            <br/>
-            <br/>
-            <br/>
-            {false ? searchAndDownloadButton : null}
-            <br/><br/><br/>
-          </div>
-          <div>
-            {
-              loading ?
-              <h3>Loading...</h3> :
-              <h3>{numTweets} tweets found.</h3>
-            }
-            <br/>
-            <h4>(Click column name to sort. Only <em>#Retweets</em>, <em>#Followers</em> and <em>#Follows</em> are supported at the moment.)</h4>
-          </div>
+          <form>
+            <div class="form-group">
+              <label for="search-query">
+                <input onChange={this.handleChange('query')} class="form-control" type="text" value={query} id="search-query" placeholder="Search"/>
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="date-since">
+                Since
+                <input onChange={this.handleChange('since')} class="form-control" type="date" value={since} id="date-since"/>
+              </label>
+            </div>
+            <div class="form-group">
+              <label for="date-until">
+                Until
+                <input onChange={this.handleChange('until')} class="form-control" type="date" value={until} id="date-until"/>
+              </label>
+            </div>
+          </form>
         </article>
+        <div>
+          {
+            loading ?
+            <h4 style={{textAlign: 'center'}}>Loading...</h4> :
+            <h4 style={{textAlign: 'center'}}>{numTweets} tweets found</h4>
+          }
+          </div>
         <section>
           {searchButton}
+          {downloadButton}
+          {resetButton}
         </section>
       </aside>
     )

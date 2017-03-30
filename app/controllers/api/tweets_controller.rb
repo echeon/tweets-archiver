@@ -7,9 +7,12 @@ class Api::TweetsController < ApplicationController
       config.consumer_key        = ENV['CONSUMER_KEY']
       config.consumer_secret     = ENV['CONSUMER_SECRET']
     end
-
+    # now = Time.now
     response = client.search(search_query, search_option)
-
+    # puts "GOT RESULT!!!! WOOHOO!!!!!!!!!!!!"
+    # puts "It took #{Time.now - now}"
+    # debugger
+    puts response
     result = response.to_a.map { |r| r.to_h.deep_symbolize_keys }
     data = format_data(result, columns)
     render json: data
@@ -28,7 +31,7 @@ class Api::TweetsController < ApplicationController
       # geocode: '37.781157,-122.398720,1mi', # lat,long,radius(3mi)(5km)
       # lang: 'en',
       # result_type: 'mixed', # 'mixed' (default), 'recent', 'popular'
-      # count: 100, #number of tweets to return per page
+      count: 100, #number of tweets to return per page
       # until: 'yyyy-mm-dd',
       # since_id: 0, #integer,
       # max_id: 0, #integer

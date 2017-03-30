@@ -22,6 +22,9 @@ export default class App extends React.Component {
       console.log("time", Date.now() - this.state.now);
       this.setState({ tweets, loading: false });
     })
+    .catch(error => {
+      this.setState({ loading: false });
+    })
   }
 
   searchAndDownload(query) {

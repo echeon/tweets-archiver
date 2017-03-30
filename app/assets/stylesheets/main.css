@@ -10,9 +10,23 @@ html, body, #root, .main-container, .search-pane, .result-pane {
 
 .search-pane {
   width: 300px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.search-pane button {
+  border-radius: 0;
+}
+
+.search-pane label {
+  width: 280px;
+}
+.search-pane input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #DDDDDD;
 }
 
 .result-pane {
