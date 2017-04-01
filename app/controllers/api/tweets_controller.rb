@@ -1,25 +1,38 @@
 require 'csv'
-require 'date'
+require 'time'
 
 class Api::TweetsController < ApplicationController
-  def search
+  def fetch_tweets(search_query, search_option)
     client = Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV['CONSUMER_KEY']
       config.consumer_secret     = ENV['CONSUMER_SECRET']
     end
     # now = Time.now
     response = client.search(search_query, search_option)
-    # puts "GOT RESULT!!!! WOOHOO!!!!!!!!!!!!"
-    # puts "It took #{Time.now - now}"
-    # debugger
-    puts response
     result = response.to_a.map { |r| r.to_h.deep_symbolize_keys }
-    data = format_data(result, columns)
+    format_data(result, columns)
+  end
+
+  def search
+    data = fetch_tweets(search_query, search_option)
     render json: data
   end
 
   def download
-    send_file Rails.root.join('app', 'views', 'api', 'index.xls.erb'), :type => "application/vnd.ms-excel", :filename => "data.xls"
+    # search_query = "@justinbieber marry me"
+    tweets = fetch_tweets(search_query, search_option)
+    @data = JSON.parse(tweets)
+    # respond_to do |format|
+    #   format.xls { send_data(@data) }
+    # end
+    # send_file Rails.root.join('app', 'views', 'api', 'tweets', 'download.xls.erb'), :type => "application/vnd.ms-excel", :filename => "data.xls"
+
+    respond_to do |format|
+      # format.xlsx { render xlsx: 'download', :type => "application/vnd.ms-excel", filename: 'data.xlsx'}
+       format.xlsx {render xlsx: 'download', :type => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+
+", filename: "data-#{Time.now().strftime('%F')}.xlsx"}
+    end
   end
 
   def search_query
@@ -111,14 +124,14 @@ class Api::TweetsController < ApplicationController
   def get_date(*accessor)
     Proc.new do |data|
       v = accessor.reduce(data) { |acc, k| acc[k] }
-      Date.parse(v).strftime('%F')
+      Time.parse(v).strftime('%F')
     end
   end
 
   def get_time(*accessor)
     Proc.new do |data|
       v = accessor.reduce(data) { |acc, k| acc[k] }
-      Date.parse(v).strftime('%I:%M %p')
+      Time.parse(v).strftime('%H:%M:%S')
     end
   end
 

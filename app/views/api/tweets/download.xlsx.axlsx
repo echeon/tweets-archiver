@@ -1,0 +1,40 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: "Tweets") do |sheet|
+  wb.styles do |s|
+    date_cell = s.add_style :format_code => "yyyy-mm-dd"
+    time_cell = s.add_style :format_code => "hh:mm:ss"
+    blue_cell = s.add_style :bg_color => "EEEEEE", :fg_color => "000000", :sz => 15, :alignment => { :horizontal=> :center }
+
+    sheet.add_row ['Tweet Detail', '', '', '', '', '', 'User Detail', '', '', '', '', '', '']
+    sheet.merge_cells("A1:F1")
+    sheet.merge_cells("G1:M1")
+
+    sheet.add_row ['Date', 'Time', 'Screen Name', 'Name', 'Tweet', '# Retweets', '# Followers', '# Follows', '# Favorites', 'Verified', 'Member Since', 'Location', 'Bio']
+
+    @data.each do |row_data|
+      d = row_data.deep_symbolize_keys
+      row = []
+      row << Date::strptime(d[:date_created], '%Y-%m-%d')
+      row << d[:time_created]
+      row << "=HYPERLINK(\"https://www.twitter.com/#{d[:screen_name]}\", \"@#{d[:screen_name]}\")"
+      row << d[:user_name]
+      row << "=HYPERLINK(\"https://www.twitter.com/#{d[:screen_name]}/status/#{d[:tweet_id]}\", \"#{d[:tweet]}\")"
+      row << d[:number_retweets]
+      row << d[:number_followers]
+      row << d[:number_follows]
+      row << d[:number_favorites]
+      row << d[:verified] ? 'Yes' : 'No'
+      row << Date::strptime(d[:member_since], '%Y-%m-%d')
+      row << d[:user_location]
+      row << d[:user_description]
+      sheet.add_row row, style: [date_cell, time_cell, nil, nil, nil, nil, nil, nil, nil, nil, date_cell, nil, nil]
+    end
+
+    # add table
+    sheet.add_table "A2:M#{@data.length + 2}", style_info: { name: "Tweets" }
+
+    # hide gridlines
+    sheet.sheet_view.show_grid_lines = false
+  end
+end

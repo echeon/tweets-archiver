@@ -3,34 +3,66 @@ html, body, #root, .main-container, .search-pane, .result-pane {
   width: 100%;
 }
 
+aside h1,
+aside h2,
+aside h3,
+aside h4,
+aside h5,
+aside h6 {
+  margin: 0;
+  line-height: normal;
+  font-family: 'Cabin Sketch';
+  font-weight: 700;
+}
+
 .main-container {
   box-sizing: border-box;
+  border: 3px solid red;
   display: flex;
 }
 
-.search-pane {
+header.mdl-layout__header,
+div.mdl-layout__header-row {
+  box-shadow: none;
+  min-height: 48px;
+  max-height: 48px;
+}
+
+header.mdl-layout__header div.mdl-layout__drawer-button {
+  min-height: 48px;
+  max-height: 48px;
+  margin: 0px;
+}
+
+aside.mdl-layout__drawer.is-visible {
   width: 300px;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
+  padding: 20px;
   justify-content: space-between;
 }
 
-.search-pane button {
+form div.mdl-textfield {
+  margin: 10px 0;
+  padding: 0;
+}
+
+form div.mdl-textfield input.mdl-textfield__input {
+  font-size: 15px;
+}
+
+form div.mdl-textfield label.mdl-textfield__label:after {
+  bottom: 0;
+  background-color: rgb(33, 150, 243);
+}
+
+form div small {
+  color: rgb(33,150,243);
+  font-size: 12px;
+  top: 4px;
+}
+
+a.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored.mdl-js-ripple-effect {
+  margin: 15px 0 0 0;
   border-radius: 0;
-}
-
-.search-pane label {
-  width: 280px;
-}
-.search-pane input {
-  width: 100%;
-  box-sizing: border-box;
-  border: 1px solid #DDDDDD;
-}
-
-.result-pane {
-  width: 500px;
   display: flex;
   flex: 1;
 }

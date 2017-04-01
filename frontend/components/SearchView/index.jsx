@@ -1,6 +1,7 @@
 import React from 'react';
 import SearchParameterList from './SearchParameterList';
 import searchRules from './searchRules';
+import queryString from 'query-string';
 
 export default class SearchView extends React.Component {
   constructor(props) {
@@ -14,10 +15,12 @@ export default class SearchView extends React.Component {
     this.generateQuery = this.generateQuery.bind(this);
   }
 
-  handleClick(e) {
-    e.preventDefault();
-    const query = this.generateQuery();
-    this.props.handleClick(query);
+  handleClick(action) {
+    return e => {
+      e.preventDefault();
+      const query = this.generateQuery();
+      this.props.handleClick(action)(query);
+    }
   }
 
   handleChange(prop) {
@@ -40,6 +43,7 @@ export default class SearchView extends React.Component {
     return finalQuery.join(' ');
   }
 
+
   render() {
     const { loading, numTweets } = this.props;
 
@@ -52,52 +56,71 @@ export default class SearchView extends React.Component {
     )
 
     const searchButton = (
-      <button type="button" className="btn btn-primary btn-block" onClick={this.handleClick} disabled={loading}>SEARCH</button>
+      <a
+        className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect"
+        onClick={this.handleClick('search')}
+        disabled={loading}
+      >
+        SEARCH
+      </a>
     )
 
+    const downloadQuery = queryString.stringify({query: this.generateQuery()})
     const downloadButton = (
-      <button type="button" className="btn btn-success btn-block" onClick={this.handleClick} disabled={true}>DOWNLOAD</button>
+      <a
+        className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect"
+        href={`/api/download_tweets?${downloadQuery}`}
+        disabled={loading}
+        download
+      >
+        DOWNLOAD
+      </a>
     )
 
     const resetButton = (
-      <button type="button" className="btn btn-danger btn-block" onClick={this.handleClick} disabled={true}>RESET</button>
+      <a
+        className="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect"
+        onClick={this.handleClick('reset')}
+        disabled={true}
+      >
+        RESET
+      </a>
     )
 
     const { query, since, until } = this.state;
 
     return (
-      <aside className='search-pane'>
-        <h1 style={{fontFamily: 'Cabin Sketch', textAlign: 'center', fontWeight: 700}}>Search Tweets</h1>
+      <aside className="mdl-layout__drawer">
+        <div>
+          <h3>Search Tweets</h3>
+          <small><a href="https://dev.twitter.com/rest/public/search">Search Help from Twitter</a></small>
+        </div>
         <article>
           <form>
-            <div class="form-group">
-              <label for="search-query">
-                <input onChange={this.handleChange('query')} class="form-control" type="text" value={query} id="search-query" placeholder="Search"/>
-                <small><a href="https://dev.twitter.com/rest/public/search">Search Help from Twitter</a></small>
-              </label>
+            <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <small>Search</small>
+              <label className="mdl-textfield__label" for="search-query"></label>
+              <input onChange={this.handleChange('query')} className="mdl-textfield__input" type="text" value={query} id="search-query"/>
             </div>
-            <div class="form-group">
-              <label for="date-since">
-                Since
-                <input onChange={this.handleChange('since')} class="form-control" type="date" value={since} id="date-since"/>
-              </label>
+            <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <small>Since</small>
+              <label className="mdl-textfield__label" for="date-since"></label>
+              <input onChange={this.handleChange('since')} className="mdl-textfield__input" type="date" value={since} id="date-since"/>
             </div>
-            <div class="form-group">
-              <label for="date-until">
-                Until
-                <input onChange={this.handleChange('until')} class="form-control" type="date" value={until} id="date-until"/>
-              </label>
+            <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <small>Until</small>
+              <label className="mdl-textfield__label" for="date-until"></label>
+              <input onChange={this.handleChange('until')} className="mdl-textfield__input" type="date" value={until} id="date-until"/>
             </div>
           </form>
         </article>
         <div>
           {
-            loading ?
-            <h4 style={{textAlign: 'center'}}>Loading...</h4> :
-            <h4 style={{textAlign: 'center'}}>{numTweets} tweets found</h4>
+            <h4>{numTweets} tweets found</h4>
           }
-          </div>
+        </div>
         <section>
+          <div id="p2" className="mdl-progress mdl-js-progress mdl-progress__indeterminate" hidden={!loading}></div>
           {searchButton}
           {downloadButton}
           {resetButton}

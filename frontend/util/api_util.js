@@ -5,3 +5,14 @@ export const fetchTweets = query => (
     data: { query },
   })
 );
+
+export const downloadTweets = query => (
+  $.ajax({
+    method: 'GET',
+    url: '/api/download_tweets',
+    data: { query },
+    success: (data) => {
+      debugger
+    }
+  })
+)
