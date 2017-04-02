@@ -19,19 +19,11 @@ class Api::TweetsController < ApplicationController
   end
 
   def download
-    # search_query = "@justinbieber marry me"
     tweets = fetch_tweets(search_query, search_option)
     @data = JSON.parse(tweets)
-    # respond_to do |format|
-    #   format.xls { send_data(@data) }
-    # end
-    # send_file Rails.root.join('app', 'views', 'api', 'tweets', 'download.xls.erb'), :type => "application/vnd.ms-excel", :filename => "data.xls"
 
     respond_to do |format|
-      # format.xlsx { render xlsx: 'download', :type => "application/vnd.ms-excel", filename: 'data.xlsx'}
-       format.xlsx {render xlsx: 'download', :type => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
-
-", filename: "data-#{Time.now().strftime('%F')}.xlsx"}
+       format.xlsx {render xlsx: 'download', :type => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", filename: "search-results-#{Time.now().strftime('%Y%m%d%H%M%S%L')}.xlsx"}
     end
   end
 
