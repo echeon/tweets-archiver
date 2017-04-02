@@ -101,6 +101,9 @@ export default class ResultView extends React.Component {
 
     return (
       <main id="table-wrapper" className="mdl-layout__content">
+        {
+          (this.data.length === 0) ? <h1 className="no-data-text">NO DATA</h1> : null
+        }
         <Table
           rowHeight={30}
           rowsCount={this.data.length}

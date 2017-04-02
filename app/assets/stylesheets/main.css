@@ -7,6 +7,17 @@ body {
   font-family: 'PT Sans';
 }
 
+h1.no-data-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  color: #F9F9F9;
+  letter-spacing: 2px;
+  font-size: 100px;
+}
+
 aside h1,
 aside h2,
 aside h3,
