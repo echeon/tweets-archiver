@@ -48,8 +48,8 @@ export default class App extends React.Component {
             <i className="material-icons">search</i>
           </div>
           <div className="mdl-layout__header-row">
-            <span className="mdl-layout-title">Tweets Archiver</span>
             <div className="mdl-layout-spacer"></div>
+            <span className="mdl-layout-title">Tweets Archiver</span>
           </div>
         </header>
         <SearchView

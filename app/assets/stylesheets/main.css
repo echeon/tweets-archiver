@@ -3,6 +3,10 @@ html, body, #root, .main-container, .search-pane, .result-pane {
   width: 100%;
 }
 
+body {
+  font-family: 'PT Sans';
+}
+
 aside h1,
 aside h2,
 aside h3,
@@ -26,6 +30,8 @@ div.mdl-layout__header-row {
   box-shadow: none;
   min-height: 48px;
   max-height: 48px;
+  padding: 0 8px 0 24px;
+  background-color: #303F9F;
 }
 
 header.mdl-layout__header div.mdl-layout__drawer-button {
@@ -65,4 +71,33 @@ a.mdl-button.mdl-js-button.mdl-button--raised.mdl-button--colored.mdl-js-ripple-
   border-radius: 0;
   display: flex;
   flex: 1;
+}
+
+span.mdl-layout-title {
+  font-family: 'Cabin Sketch';
+}
+
+
+/* Custom Styling for Fixed-Data-Table-2 */
+
+div.public_fixedDataTableCell_cellContent {
+  padding: 0;
+  font-family: 'PT Sans';
+}
+
+div.public_fixedDataTable_header div.public_fixedDataTableCell_main {
+  border-color: #FF0000;
+  text-align: center;
+  background-image: none;
+  background-color: #3F51B5;
+  color: rgb(255, 255, 255);
+  font-weight: 400;
+}
+
+/* Border of All Cells */
+div.public_fixedDataTable_header div.public_fixedDataTableCell_main,
+div.public_fixedDataTable_main,
+div.public_fixedDataTable_header,
+div.public_fixedDataTableCell_main {
+  border-color: #BDBDBD;
 }

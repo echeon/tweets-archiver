@@ -5,8 +5,6 @@ import { TextCell, DateCell, TimeCell, BoolCell, LinkCell } from './cells';
 import { sortTypes, SortHeaderCell } from './headerCells';
 import { getValue, sortArrayByIndexes, spaceship } from './helpers';
 
-const DEFAULT_COLUMN_WIDTH = 100;
-
 export default class ResultView extends React.Component {
   constructor(props) {
     super(props);
@@ -19,19 +17,19 @@ export default class ResultView extends React.Component {
       tableWidth: 1000,
       tableHeight: 1000,
       columnWidths: {
-        dateCreated: DEFAULT_COLUMN_WIDTH,
-        timeCreated: DEFAULT_COLUMN_WIDTH,
-        screenName: DEFAULT_COLUMN_WIDTH,
-        name: DEFAULT_COLUMN_WIDTH,
-        tweetText: DEFAULT_COLUMN_WIDTH,
-        numRetweets: DEFAULT_COLUMN_WIDTH,
-        numFollowers: DEFAULT_COLUMN_WIDTH,
-        numFollows: DEFAULT_COLUMN_WIDTH,
-        numFavorites: DEFAULT_COLUMN_WIDTH,
-        verified: DEFAULT_COLUMN_WIDTH,
-        memberSince: DEFAULT_COLUMN_WIDTH,
-        location: DEFAULT_COLUMN_WIDTH,
-        bio: DEFAULT_COLUMN_WIDTH,
+        dateCreated: 100,
+        timeCreated: 80,
+        screenName: 120,
+        name: 120,
+        tweetText: 350,
+        numRetweets: 100,
+        numFollowers: 100,
+        numFollows: 100,
+        numFavorites: 100,
+        verified: 80,
+        memberSince: 110,
+        location: 100,
+        bio: 100,
       },
       colSortDirs: {},
     };
@@ -49,25 +47,6 @@ export default class ResultView extends React.Component {
   componentDidMount() {
     this._updateTableSize();
     $(window).on('resize', () => { this._updateTableSize(); });
-    document.getElementById('table-wrapper').addEventListener('mousewheel', function(event) {
-      console.log(event);
-      // We don't want to scroll below zero or above the width and height
-      var maxX = this.scrollWidth - this.offsetWidth;
-      var maxY = this.scrollHeight - this.offsetHeight;
-
-      // If this event looks like it will scroll beyond the bounds of the element, prevent it and set the scroll to the boundary manually
-      if (this.scrollLeft + event.deltaX < 0 ||
-         this.scrollLeft + event.deltaX > maxX ||
-         this.scrollTop + event.deltaY < 0 ||
-         this.scrollTop + event.deltaY > maxY) {
-
-        event.preventDefault();
-
-        // Manually set the scroll to the boundary
-        this.scrollLeft = Math.max(0, Math.min(maxX, this.scrollLeft + event.deltaX));
-        this.scrollTop = Math.max(0, Math.min(maxY, this.scrollTop + event.deltaY));
-      }
-    }, false);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -123,12 +102,12 @@ export default class ResultView extends React.Component {
     return (
       <main id="table-wrapper" className="mdl-layout__content">
         <Table
-          rowHeight={50}
+          rowHeight={30}
           rowsCount={this.data.length}
           width={tableWidth}
           height={tableHeight}
-          groupHeaderHeight={50}
-          headerHeight={50}
+          groupHeaderHeight={30}
+          headerHeight={30}
           onColumnResizeEndCallback={this._onColumnResizeEndCallback}
           isColumnResizing={false}
         >
@@ -137,7 +116,15 @@ export default class ResultView extends React.Component {
           >
             <Column
               columnKey="dateCreated"
-              header={<Cell>Date</Cell>}
+              header={
+                <SortHeaderCell
+                  onSortChange={this._onSortChange}
+                  sortDir={colSortDirs.dateCreated}
+                  accessor={d => d.date_created}
+                >
+                  Date
+                </SortHeaderCell>
+              }
               isResizable={true}
               width={columnWidths.dateCreated}
               flexGrow={1}
@@ -145,7 +132,15 @@ export default class ResultView extends React.Component {
             />
             <Column
               columnKey="timeCreated"
-              header={<Cell>Time</Cell>}
+              header={
+                <SortHeaderCell
+                  onSortChange={this._onSortChange}
+                  sortDir={colSortDirs.timeCreated}
+                  accessor={d => d.time_created}
+                >
+                  Time
+                </SortHeaderCell>
+              }
               isResizable={true}
               width={columnWidths.timeCreated}
               flexGrow={1}
@@ -228,7 +223,15 @@ export default class ResultView extends React.Component {
             />
             <Column
               columnKey="numFavorites"
-              header={<Cell># Favorites</Cell>}
+              header={
+                <SortHeaderCell
+                  onSortChange={this._onSortChange}
+                  sortDir={colSortDirs.numFavorites}
+                  accessor={d => d.number_favorites}
+                >
+                  # Favorites
+                </SortHeaderCell>
+              }
               isResizable={true}
               width={columnWidths.numFavorites}
               flexGrow={1}
