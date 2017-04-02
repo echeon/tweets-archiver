@@ -9,9 +9,7 @@ export default class ResultView extends React.Component {
   constructor(props) {
     super(props);
     this.data = props.tweets;
-    // this.data = data;
     this.defaultSortIndexes = this.getDefaultSortIndexes(props.tweets.length);
-    // this.defaultSortIndexes = this.getDefaultSortIndexes(data.length);
     this.state = {
       sortedData: props.tweets,
       tableWidth: 1000,
@@ -19,8 +17,8 @@ export default class ResultView extends React.Component {
       columnWidths: {
         dateCreated: 100,
         timeCreated: 80,
-        screenName: 120,
-        name: 120,
+        screenName: 150,
+        name: 150,
         tweetText: 350,
         numRetweets: 100,
         numFollowers: 100,
@@ -28,9 +26,10 @@ export default class ResultView extends React.Component {
         numFavorites: 100,
         verified: 80,
         memberSince: 110,
-        location: 100,
-        bio: 100,
+        location: 200,
+        bio: 300,
       },
+      columnMinWidth: 50,
       colSortDirs: {},
     };
     this._updateTableSize = this._updateTableSize.bind(this);
@@ -97,7 +96,7 @@ export default class ResultView extends React.Component {
 
   render() {
     const { loading } = this.props;
-    const { tableWidth, tableHeight, columnWidths, colSortDirs, sortedData } = this.state;
+    const { tableWidth, tableHeight, columnWidths, columnMinWidth, colSortDirs, sortedData } = this.state;
 
     return (
       <main id="table-wrapper" className="mdl-layout__content">
@@ -132,6 +131,8 @@ export default class ResultView extends React.Component {
               width={columnWidths.dateCreated}
               flexGrow={1}
               cell={<TextCell data={sortedData} accessor={['date_created']}/>}
+              align="center"
+              minWidth={columnMinWidth}
             />
             <Column
               columnKey="timeCreated"
@@ -148,6 +149,8 @@ export default class ResultView extends React.Component {
               width={columnWidths.timeCreated}
               flexGrow={1}
               cell={<TextCell data={sortedData} accessor={['time_created']}/>}
+              align="center"
+              minWidth={columnMinWidth}
             />
             <Column
               columnKey="screenName"
@@ -156,6 +159,7 @@ export default class ResultView extends React.Component {
               width={columnWidths.screenName}
               flexGrow={1}
               cell={<LinkCell data={sortedData} accessor={['screen_name']} linkType='user'/>}
+              minWidth={columnMinWidth}
             />
             <Column
               columnKey="name"
@@ -164,6 +168,7 @@ export default class ResultView extends React.Component {
               width={columnWidths.name}
               flexGrow={1}
               cell={<TextCell data={sortedData} accessor={['user_name']}/>}
+              minWidth={columnMinWidth}
             />
             <Column
               columnKey="tweetText"
@@ -172,6 +177,7 @@ export default class ResultView extends React.Component {
               width={columnWidths.tweetText}
               flexGrow={5}
               cell={<LinkCell data={sortedData} accessor={['tweet']} linkType='tweet'/>}
+              minWidth={columnMinWidth}
             />
             <Column
               columnKey="numRetweets"
@@ -188,6 +194,8 @@ export default class ResultView extends React.Component {
               width={columnWidths.numRetweets}
               flexGrow={1}
               cell={<TextCell data={sortedData} accessor={['number_retweets']}/>}
+              align="center"
+              minWidth={columnMinWidth}
             />
           </ColumnGroup>
           <ColumnGroup
@@ -207,6 +215,8 @@ export default class ResultView extends React.Component {
               width={columnWidths.numFollowers}
               flexGrow={1}
               cell={<TextCell data={sortedData} accessor={['number_followers']}/>}
+              align="center"
+              minWidth={columnMinWidth}
             />
             <Column
               columnKey="numFollows"
@@ -223,6 +233,8 @@ export default class ResultView extends React.Component {
               width={columnWidths.numFollows}
               flexGrow={1}
               cell={<TextCell data={sortedData} accessor={['number_follows']}/>}
+              align="center"
+              minWidth={columnMinWidth}
             />
             <Column
               columnKey="numFavorites"
@@ -239,6 +251,8 @@ export default class ResultView extends React.Component {
               width={columnWidths.numFavorites}
               flexGrow={1}
               cell={<TextCell data={sortedData} accessor={['number_favorites']}/>}
+              align="center"
+              minWidth={columnMinWidth}
             />
             <Column
               columnKey="verified"
@@ -247,6 +261,8 @@ export default class ResultView extends React.Component {
               width={columnWidths.verified}
               flexGrow={1}
               cell={<BoolCell data={sortedData} accessor={['verified']}/>}
+              align="center"
+              minWidth={columnMinWidth}
             />
             <Column
               columnKey="memberSince"
@@ -255,6 +271,8 @@ export default class ResultView extends React.Component {
               width={columnWidths.memberSince}
               flexGrow={1}
               cell={<DateCell data={sortedData} accessor={['member_since']}/>}
+              align="center"
+              minWidth={columnMinWidth}
             />
             <Column
               columnKey="location"
@@ -263,6 +281,7 @@ export default class ResultView extends React.Component {
               width={columnWidths.location}
               flexGrow={1}
               cell={<TextCell data={sortedData} accessor={['user_location']}/>}
+              minWidth={columnMinWidth}
             />
             <Column
               columnKey="bio"
@@ -271,6 +290,7 @@ export default class ResultView extends React.Component {
               width={columnWidths.bio}
               flexGrow={1}
               cell={<TextCell data={sortedData} accessor={['user_description']}/>}
+              minWidth={columnMinWidth}
             />
           </ColumnGroup>
         </Table>

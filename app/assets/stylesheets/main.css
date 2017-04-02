@@ -92,12 +92,11 @@ span.mdl-layout-title {
 /* Custom Styling for Fixed-Data-Table-2 */
 
 div.public_fixedDataTableCell_cellContent {
-  padding: 0;
+  padding: 0 5px;
   font-family: 'PT Sans';
 }
 
 div.public_fixedDataTable_header div.public_fixedDataTableCell_main {
-  border-color: #FF0000;
   text-align: center;
   background-image: none;
   background-color: #3F51B5;
