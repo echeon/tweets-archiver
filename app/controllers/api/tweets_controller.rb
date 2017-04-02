@@ -33,8 +33,8 @@ class Api::TweetsController < ApplicationController
 
   def search_option
     {
-      # geocode: '37.781157,-122.398720,1mi', # lat,long,radius(3mi)(5km)
-      # lang: 'en',
+      # geocode: '40.705342,-74.012035,5mi', # lat,long,radius(3mi)(5km)
+      lang: 'en',
       # result_type: 'mixed', # 'mixed' (default), 'recent', 'popular'
       count: 100, #number of tweets to return per page
       # until: 'yyyy-mm-dd',
