@@ -14,21 +14,17 @@ class Api::TweetsController < ApplicationController
   end
 
   def search
-    data = fetch_tweets(search_query, search_option)
+    data = fetch_tweets(params[:query], search_option)
     render json: data
   end
 
   def download
-    tweets = fetch_tweets(search_query, search_option)
+    tweets = fetch_tweets(params[:query], search_option)
     @data = JSON.parse(tweets)
 
     respond_to do |format|
        format.xlsx {render xlsx: 'download', :type => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", filename: "search-results-#{Time.now().strftime('%Y%m%d%H%M%S%L')}.xlsx"}
     end
-  end
-
-  def search_query
-    params.require(:query)
   end
 
   def search_option
@@ -41,7 +37,9 @@ class Api::TweetsController < ApplicationController
       # since_id: 0, #integer,
       # max_id: 0, #integer
     }
-    hash.merge({geocode: params[:geocode]}) unless params[:geocode]
+    hash.merge!({geocode: params[:geocode]}) if params[:geocode]
+    debugger
+    hash
   end
 
   def format_data(data, columns)
