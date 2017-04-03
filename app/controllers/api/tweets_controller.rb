@@ -38,7 +38,6 @@ class Api::TweetsController < ApplicationController
       # max_id: 0, #integer
     }
     hash.merge!({geocode: params[:geocode]}) if params[:geocode]
-    debugger
     hash
   end
 
