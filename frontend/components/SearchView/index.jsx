@@ -7,19 +7,42 @@ export default class SearchView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: '@justinbieber marry me',
+      query: '#nyc #coffee',
       since: '',
       until: '',
+      latitude: '',
+      longitude: '',
+      radius: 10,
     }
     this.handleClick = this.handleClick.bind(this);
     this.generateQuery = this.generateQuery.bind(this);
+    this.addListenerToAutocomplete = this.addListenerToAutocomplete.bind(this);
+  }
+
+  componentDidMount() {
+    this.addListenerToAutocomplete();
+  }
+
+  addListenerToAutocomplete() {
+    const input = document.getElementById('search-location');
+    const autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.addListener('place_changed', () => {
+      const place = autocomplete.getPlace();
+      this.setState({
+        latitude: place.geometry.location.lat(),
+        longitude: place.geometry.location.lng(),
+      });
+    });
   }
 
   handleClick(action) {
     return e => {
       e.preventDefault();
       const query = this.generateQuery();
-      this.props.handleClick(action)(query);
+      const geocode = this.generateGeocode();
+      let data = { query };
+      if (geocode) { data = Object.assign({}, data, { geocode })}
+      this.props.handleClick(action)(data);
     }
   }
 
@@ -43,9 +66,19 @@ export default class SearchView extends React.Component {
     return finalQuery.join(' ');
   }
 
+  generateGeocode() {
+    const input = document.getElementById('search-location');
+    if (input.value !== '') {
+      const { latitude, longitude, radius } = this.state;
+      return `${latitude},${longitude},${radius}mi`;
+    } else {
+      return null;
+    }
+  }
+
 
   render() {
-    const { loading, numTweets } = this.props;
+    const { error, loading, numTweets } = this.props;
 
     const searchBar = (
       <input
@@ -87,7 +120,7 @@ export default class SearchView extends React.Component {
       </a>
     )
 
-    const { query, since, until } = this.state;
+    const { query, since, until, location, radius } = this.state;
 
     return (
       <aside className="mdl-layout__drawer">
@@ -112,12 +145,20 @@ export default class SearchView extends React.Component {
               <label className="mdl-textfield__label" for="date-until"></label>
               <input onChange={this.handleChange('until')} className="mdl-textfield__input" type="date" value={until} id="date-until"/>
             </div>
+            <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <small>Location</small>
+              <label className="mdl-textfield__label" for="search-location"></label>
+              <input onChange={this.handleChange('location')} className="mdl-textfield__input" type="text" id="search-location"/>
+            </div>
+            <div className="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+              <small>Radius (in miles)</small>
+              <label className="mdl-textfield__label" for="search-radius"></label>
+              <input onChange={this.handleChange('radius')} className="mdl-textfield__input" type="number" value={radius} id="search-radius"/>
+            </div>
           </form>
         </article>
         <div>
-          {
-            <h4>{numTweets} tweets found</h4>
-          }
+          { error ? <h4>{error}</h4> : <h4>{numTweets} tweets found</h4> }
         </div>
         <section>
           <div id="p2" className="mdl-progress mdl-js-progress mdl-progress__indeterminate" hidden={!loading}></div>

@@ -1,16 +1,16 @@
-export const fetchTweets = query => (
+export const fetchTweets = data => (
   $.ajax({
     method: 'GET',
     url: '/api/search_tweets',
-    data: { query },
+    data,
   })
 );
 
-export const downloadTweets = query => (
+export const downloadTweets = data => (
   $.ajax({
     method: 'GET',
     url: '/api/download_tweets',
-    data: { query },
+    data,
     success: (data) => {
       debugger
     }

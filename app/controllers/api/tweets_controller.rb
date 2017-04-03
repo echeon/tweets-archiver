@@ -32,7 +32,7 @@ class Api::TweetsController < ApplicationController
   end
 
   def search_option
-    {
+    hash = {
       # geocode: '40.705342,-74.012035,5mi', # lat,long,radius(3mi)(5km)
       lang: 'en',
       # result_type: 'mixed', # 'mixed' (default), 'recent', 'popular'
@@ -41,6 +41,7 @@ class Api::TweetsController < ApplicationController
       # since_id: 0, #integer,
       # max_id: 0, #integer
     }
+    hash.merge({geocode: params[:geocode]}) unless params[:geocode]
   end
 
   def format_data(data, columns)
