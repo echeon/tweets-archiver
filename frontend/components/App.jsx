@@ -20,7 +20,7 @@ export default class App extends React.Component {
   searchTweets(data) {
     API.fetchTweets(data)
     .then(tweets => {
-      console.log("time", Date.now() - this.state.now);
+      // console.log("time", Date.now() - this.state.now);
       this.setState({ tweets, loading: false, error: null, });
     })
     .catch(error => {
