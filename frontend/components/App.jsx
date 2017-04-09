@@ -18,18 +18,34 @@ export default class App extends React.Component {
   }
 
   searchTweets(data) {
+    this.intervalId = setInterval(() => {
+      $.ajax({
+        method: 'GET',
+        url: '/',
+      })
+    }, 25000);
     API.fetchTweets(data)
     .then(tweets => {
-      // console.log("time", Date.now() - this.state.now);
+      clearInterval(this.intervalId);
       this.setState({ tweets, loading: false, error: null, });
     })
     .catch(error => {
+      clearInterval(this.intervalId);
       this.setState({ loading: false, error: "Error. Try Again.", });
     })
   }
 
   downloadTweets(data) {
+    this.intervalId = setInterval(() => {
+      $.ajax({
+        method: 'GET',
+        url: '/',
+      })
+    }, 25000);
     API.downloadTweets(data)
+    .then(res => {
+      clearInterval(this.intervalId);
+    })
   }
 
   handleClick(action) {
