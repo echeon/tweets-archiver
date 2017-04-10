@@ -27,6 +27,12 @@ class Api::TweetsController < ApplicationController
     end
   end
 
+  def send_email
+    data = fetch_tweets(params[:query], search_option)
+    @data = JSON.parse(tweets)
+    TestMailer.sample_email(@data).deliver_now
+  end
+
   def search_option
     hash = {
       # geocode: '40.705342,-74.012035,5mi', # lat,long,radius(3mi)(5km)
