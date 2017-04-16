@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import ResultView from './ResultView';
 import SearchView from './SearchView';
 import * as API from '../util/api_util';
+import StackGrid from "react-stack-grid";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -81,5 +82,14 @@ export default class App extends React.Component {
         />
       </div>
     )
+    // return (
+    //   <StackGrid
+    //     columnWidth={150}
+    //   >
+    //     <div key="key1">Item 1</div>
+    //     <div key="key2">Item 2</div>
+    //     <div key="key3">Item 3</div>
+    //   </StackGrid>
+    // )
   }
 }

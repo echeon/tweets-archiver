@@ -33,6 +33,7 @@
     "query-string": "^4.3.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-stack-grid": "^0.2.0",
     "react-table": "^5.3.4",
     "react-virtualized": "^9.3.0",
     "webpack": "^2.3.2"

@@ -94,7 +94,7 @@ span.mdl-layout-title {
 div.public_fixedDataTableCell_cellContent {
   padding: 0 5px;
   font-family: 'PT Sans';
-  overflow: scroll;
+  /*overflow: scroll;*/
 }
 /*div.public_fixedDataTableCell_cellContent {
   padding: 0 0 10px;
