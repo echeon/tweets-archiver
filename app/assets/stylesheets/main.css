@@ -91,17 +91,16 @@ span.mdl-layout-title {
 
 /* Custom Styling for Fixed-Data-Table-2 */
 
-div.public_fixedDataTableCell_cellContent {
+/*div.public_fixedDataTableCell_cellContent {
   padding: 0 5px;
   font-family: 'PT Sans';
-  /*overflow: scroll;*/
-}
-/*div.public_fixedDataTableCell_cellContent {
+}*/
+div.public_fixedDataTableCell_cellContent {
   padding: 0 0 10px;
   overflow: scroll;
   font-family: 'PT Sans';
   height: 35px;
-}*/
+}
 
 div.public_fixedDataTable_header div.public_fixedDataTableCell_main {
   text-align: center;
