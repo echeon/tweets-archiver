@@ -19,8 +19,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "auth0-js": "^8.5.0",
-    "auth0-lock": "^10.14.0",
     "babel-core": "^6.24.0",
     "babel-loader": "^6.4.1",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
@@ -30,15 +28,11 @@
     "css-loader": "^0.27.3",
     "dateformat": "^2.0.0",
     "fixed-data-table-2": "^0.7.12",
-    "history": "^4.6.1",
-    "json2xls": "^0.1.2",
     "query-string": "^4.3.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "react-router": "^4.1.1",
     "react-stack-grid": "^0.2.0",
     "react-table": "^5.3.4",
-    "react-virtualized": "^9.3.0",
     "webpack": "^2.3.2"
   }
 }
