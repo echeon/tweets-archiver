@@ -24,13 +24,16 @@ div.fixedDataTableCellLayout_wrap3.public_fixedDataTableCell_wrap3 {
 }
 
 div.public_fixedDataTableCell_cellContent {
-  padding: 0px;
-  margin: auto 0;
+  padding: 0;
+  margin: auto;
   width: 100%;
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   font-family: 'PT Sans';
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 div.public_fixedDataTable_header div.public_fixedDataTableCell_main {
