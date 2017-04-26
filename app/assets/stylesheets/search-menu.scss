@@ -1,0 +1,80 @@
+#search-menu {
+  height: 100%; /* 100% Full-height */
+  width: 0; /* 0 width - change this with JavaScript */
+  box-sizing: border-box;
+  position: fixed; /* Stay in place */
+  z-index: 10; /* Stay on top */
+  top: 0;
+  left: 0;
+  background-color: #FFFFFF;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  box-shadow: 1px 0 6px rgba(0,0,0,0.35);
+}
+
+#search-menu > div {
+  padding: 15px;
+}
+
+#search-menu .close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+#search-menu > div {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+.btn-custom {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+}
+
+form div.form-field {
+  margin: 10px 0;
+  height: 50px;
+  position: relative;
+}
+
+form label.form-field__label {
+  display: block;
+  font-size: 12px;
+  width: 100%;
+  font-weight: normal;
+  color: #0084B4;
+}
+
+form input.form-field__input {
+  display: block;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #EEEEEE;
+}
+
+form input.form-field__input:focus {
+  outline: none;
+}
+
+form input.form-field__input + span {
+  display: block;
+  position: absolute;
+  content: '';
+  width: 0;
+  height: 1px;
+  bottom: 5px;
+  background-color: #1DA1F2;
+  transition: all 0.2s linear;
+  left: 50%;
+}
+
+form input.form-field__input:focus + span {
+  width: 100%;
+  left: 0;
+}

@@ -1,21 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Header from './Header';
 import ResultView from './ResultView';
 import SearchView from './SearchView';
-import * as API from '../util/api_util';
+import * as API from '../utils/api_util';
 import StackGrid from "react-stack-grid";
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      app: 'twitter',
       loading: false,
       error: null,
       tweets: [],
     }
-    this.handleClick = this.handleClick.bind(this);
+    this.changeApp = this.changeApp.bind(this);
     this.searchTweets = this.searchTweets.bind(this);
     this.downloadTweets = this.downloadTweets.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   searchTweets(data) {
@@ -58,38 +61,32 @@ export default class App extends React.Component {
     }
   }
 
+  changeApp(app) {
+    this.setState({ app })
+  }
+
   render() {
+    const { app } = this.state;
+
     return (
-      <div className="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-        <header className="mdl-layout__header">
-          <div aria-expanded="false" role="button" tabindex="0" className="mdl-layout__drawer-button">
-            <i className="material-icons">search</i>
-          </div>
-          <div className="mdl-layout__header-row">
-            <div className="mdl-layout-spacer"></div>
-            <span className="mdl-layout-title">Tweets Archiver</span>
-          </div>
-        </header>
+      <div className="container-fluid">
+        <Header
+          app={app}
+          changeApp={this.changeApp}
+        />
         <SearchView
+          app={app}
           loading={this.state.loading}
           error={this.state.error}
           numTweets={this.state.tweets.length}
           handleClick={this.handleClick}
         />
         <ResultView
+          app={app}
           loading={this.state.loading}
           tweets={this.state.tweets}
         />
       </div>
     )
-    // return (
-    //   <StackGrid
-    //     columnWidth={150}
-    //   >
-    //     <div key="key1">Item 1</div>
-    //     <div key="key2">Item 2</div>
-    //     <div key="key3">Item 3</div>
-    //   </StackGrid>
-    // )
   }
 }

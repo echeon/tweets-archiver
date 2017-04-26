@@ -1,0 +1,42 @@
+html, body, #root, #search-result, #table-wrapper {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+div.container-fluid {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'PT Sans';
+}
+
+#page-header {
+  transition: margin-left .5s;
+}
+
+header.fixed-header {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  height: 48px;
+  padding: 10px;
+  background-color: #1DA1F2;
+  color: #FFFFFF;
+}
+
+header i {
+  cursor: pointer;
+}
+
+header h1.title {
+  font-family: 'Cabin Sketch';
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 28px;
+  margin: 0;
+  padding: 0;
+}
