@@ -16,7 +16,6 @@ export default class ResultTwitter extends React.Component {
 
   render() {
     const { tableWidth, tableHeight } = this.props;
-    const { columnWidths } = this.state;
 
     const tdStyle = {
       whiteSpace: 'normal',
