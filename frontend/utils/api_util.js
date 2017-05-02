@@ -11,8 +11,5 @@ export const downloadTweets = data => (
     method: 'GET',
     url: '/api/download_tweets',
     data,
-    success: (data) => {
-      debugger
-    }
   })
 )
