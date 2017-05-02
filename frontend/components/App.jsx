@@ -13,7 +13,7 @@ export default class App extends React.Component {
       app: 'twitter',
       loading: false,
       error: null,
-      tweets: [],
+      data: [],
     }
     this.changeApp = this.changeApp.bind(this);
     this.searchTweets = this.searchTweets.bind(this);
@@ -29,9 +29,9 @@ export default class App extends React.Component {
       })
     }, 25000);
     API.fetchTweets(data)
-    .then(tweets => {
+    .then(data => {
       clearInterval(this.intervalId);
-      this.setState({ tweets, loading: false, error: null, });
+      this.setState({ data, loading: false, error: null, });
     })
     .catch(error => {
       clearInterval(this.intervalId);
@@ -69,7 +69,7 @@ export default class App extends React.Component {
     const { app } = this.state;
 
     return (
-      <div className="container-fluid">
+      <div>
         <Header
           app={app}
           changeApp={this.changeApp}
@@ -78,13 +78,13 @@ export default class App extends React.Component {
           app={app}
           loading={this.state.loading}
           error={this.state.error}
-          numTweets={this.state.tweets.length}
+          numTweets={this.state.data.length}
           handleClick={this.handleClick}
         />
         <ResultView
           app={app}
           loading={this.state.loading}
-          tweets={this.state.tweets}
+          data={this.state.data}
         />
       </div>
     )

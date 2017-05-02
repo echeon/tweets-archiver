@@ -1,28 +1,22 @@
-export const getValue = (rowData, accessor) => {
-  const accessorType = Object.prototype.toString.call(accessor);
-  switch (accessorType) {
-    case '[object Function]':
-      return accessor(rowData);
-    case '[object Array]':
-      return getNestedValue(rowData, accessor);
-    case '[object Number]':
-    case '[object String]':
-      return rowData[accessor];
-    default:
-      return null;
-  };
+import dateFormat from 'dateformat';
+
+export const getValue = (row, accessor) => {
+    const accessorType = Object.prototype.toString.call(accessor);
+    switch (accessorType) {
+      case '[object Function]':
+        return accessor(row);
+      case '[object Array]':
+        return getNestedValue(row, accessor);
+      case '[object Number]':
+      case '[object String]':
+        return row[accessor];
+      default:
+        return null;
+    };
 };
 
 export const getNestedValue = (data, paths) => {
   return paths.reduce((acc, path) => acc[path], data);
-};
-
-export const sortArrayByIndexes = (data, sortIndexes) => {
-  const sortedData = new Array(data.length)
-  for (let i = 0; i < sortedData.length; i++) {
-    sortedData[i] =  data[sortIndexes[i]]
-  }
-  return sortedData;
 };
 
 export const spaceship = (val1, val2) => {
@@ -40,3 +34,22 @@ export const spaceship = (val1, val2) => {
     return 0;
   }
 };
+
+export const sortFunc = (accessor, sortType) => (a, b, order) => {
+  let valueA, valueB;
+  switch (sortType) {
+    case 'date':
+      valueA = dateFormat(new Date(getValue(a, accessor)), 'yyyy-mm-dd');
+      valueB = dateFormat(new Date(getValue(b, accessor)), 'yyyy-mm-dd');
+      break;
+    case 'time':
+      valueA = dateFormat(new Date(getValue(a, accessor)), 'HH:MM:ss');
+      valueB = dateFormat(new Date(getValue(b, accessor)), 'HH:MM:ss');
+      break;
+    default:
+      valueA = getValue(a, accessor);
+      valueB = getValue(b, accessor);
+      break;
+  }
+  return order === 'asc' ? spaceship(valueA, valueB) : spaceship(valueB, valueA);
+}

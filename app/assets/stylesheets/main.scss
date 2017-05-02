@@ -1,9 +1,9 @@
-html, body, #root, #search-result, #table-wrapper {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
+// html, body, #root, #search-result, #table-wrapper {
+//   height: 100%;
+//   width: 100%;
+//   margin: 0;
+//   padding: 0;
+// }
 
 div.container-fluid {
   margin: 0;
@@ -26,6 +26,9 @@ header.fixed-header {
   padding: 10px;
   background-color: #1DA1F2;
   color: #FFFFFF;
+  // position: fixed;
+  // top: 0;
+  // width: 100vw;
 }
 
 header i {

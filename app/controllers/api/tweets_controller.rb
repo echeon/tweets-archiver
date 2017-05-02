@@ -7,10 +7,20 @@ class Api::TweetsController < ApplicationController
       config.consumer_key        = ENV['CONSUMER_KEY']
       config.consumer_secret     = ENV['CONSUMER_SECRET']
     end
-    # now = Time.now
-    response = client.search(search_query, search_option)
-    result = response.to_a.map { |r| r.to_h.deep_symbolize_keys }
-    format_data(result, columns)
+    client.search(search_query, search_option)
+  end
+
+  def stream
+    client = Twitter::Streaming::Client.new do |config|
+      config.consumer_key        = ENV['CONSUMER_KEY']
+      config.consumer_secret     = ENV['CONSUMER_SECRET']
+      config.access_token        = ENV['ACCESS_TOKEN']
+      config.access_token_secret = ENV['ACCESS_TOKEN_SECRET']
+    end
+    # client.filter(locations: "-122.75,36.8,-121.75,37.8") do |tweet|
+    #   # puts tweet.text
+    #   pp tweet.to_h
+    # end
   end
 
   def search
