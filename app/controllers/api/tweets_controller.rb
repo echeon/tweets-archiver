@@ -7,6 +7,7 @@ class Api::TweetsController < ApplicationController
       config.consumer_key        = ENV['CONSUMER_KEY']
       config.consumer_secret     = ENV['CONSUMER_SECRET']
     end
+
     client.search(search_query, search_option)
   end
 
@@ -29,7 +30,12 @@ class Api::TweetsController < ApplicationController
   end
 
   def download
-    tweets = fetch_tweets(params[:query], search_option)
+    response = fetch_tweets(params[:query], search_option)
+    result = response.to_a.map { |r| r.to_h.deep_symbolize_keys }
+    # puts "*************"
+    # puts result.length
+    # puts "*************"
+    tweets = format_data(result, columns)
     @data = JSON.parse(tweets)
 
     respond_to do |format|

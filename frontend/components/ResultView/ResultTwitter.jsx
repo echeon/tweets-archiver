@@ -1,5 +1,5 @@
 import React from 'react';
-import data from './sampleData';
+// import data from './sampleData';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import {
   dateFormatter,
