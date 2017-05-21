@@ -15,7 +15,6 @@ export default class SearchTwitter extends React.Component {
       radius: 10,
     }
     this.handleClick = this.handleClick.bind(this);
-    this.generateQuery = this.generateQuery.bind(this);
     this.addListenerToAutocomplete = this.addListenerToAutocomplete.bind(this);
   }
 
@@ -38,10 +37,13 @@ export default class SearchTwitter extends React.Component {
   handleClick(action) {
     return e => {
       e.preventDefault();
-      const query = this.generateQuery();
       const geocode = this.generateGeocode();
-      let data = { query };
-      if (geocode) { data = Object.assign({}, data, { geocode })}
+      const data = {
+        query: this.state.query,
+        since: this.state.since,
+        until: this.state.until,
+      };
+      if (geocode) { data.geocode = geocode }
       this.props.handleClick(action)(data);
     }
   }
@@ -54,18 +56,6 @@ export default class SearchTwitter extends React.Component {
     };
   }
 
-  generateQuery() {
-    const { query, since, until } = this.state;
-    let finalQuery = [query];
-    if (since !== '') {
-      finalQuery.push(`since:${since}`);
-    };
-    if (until !== '') {
-      finalQuery.push(`until:${until}`);
-    };
-    return finalQuery.join(' ');
-  }
-
   generateGeocode() {
     const input = document.getElementById('search-location');
     if (input.value !== '') {
@@ -75,7 +65,6 @@ export default class SearchTwitter extends React.Component {
       return null;
     }
   }
-
 
   render() {
     const { error, loading, numTweets } = this.props;
@@ -98,12 +87,11 @@ export default class SearchTwitter extends React.Component {
       </a>
     )
 
-    const downloadQuery = queryString.stringify({query: this.generateQuery()})
     const downloadButton = (
       <a
         className="btn btn-success btn-custom"
-        href={`/api/download_tweets?${downloadQuery}`}
-        disabled={loading}
+        href={`/api/download_tweets?`}
+        disabled={true}
         download
       >
         DOWNLOAD
@@ -159,9 +147,11 @@ export default class SearchTwitter extends React.Component {
         </article>
         <div>
           { error ? <h4>{error}</h4> : <h4>{numTweets} tweets found</h4> }
+          <div id="activity-indicator">
+            <div className={loading ? 'indeterminate' : ''}></div>
+          </div>
         </div>
         <section>
-          <div id="p2" className="mdl-progress mdl-js-progress mdl-progress__indeterminate" hidden={!loading}></div>
           {searchButton}
           {downloadButton}
           {resetButton}

@@ -4,7 +4,7 @@ import Header from './Header';
 import ResultView from './ResultView';
 import SearchView from './SearchView';
 import * as API from '../utils/api_util';
-import StackGrid from "react-stack-grid";
+import uuidV4 from 'uuid/V4';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -15,6 +15,7 @@ export default class App extends React.Component {
       error: null,
       data: [],
     }
+    this.tweets = [];
     this.changeApp = this.changeApp.bind(this);
     this.searchTweets = this.searchTweets.bind(this);
     this.downloadTweets = this.downloadTweets.bind(this);
@@ -22,22 +23,25 @@ export default class App extends React.Component {
   }
 
   searchTweets(data) {
-    this.intervalId = setInterval(() => {
-      $.ajax({
-        method: 'GET',
-        url: '/',
-      })
-    }, 25000);
-    API.fetchTweets(data)
-    .then(data => {
-      clearInterval(this.intervalId);
-      this.setState({ data, loading: false, error: null, });
-    })
-    .catch(error => {
-      clearInterval(this.intervalId);
-      this.setState({ loading: false, error: "Error. Try Again.", });
+    const channel = uuidV4();
+
+    this.tweets = [];
+    this.setState({ loading: true });
+
+    API.fetchTweets({ ...data, channel })
+
+    var source = new EventSource(`/api/search_tweets?channel=${channel}`)
+    source.addEventListener(channel, event => {
+      const data = JSON.parse(event.data)
+      console.log(data.tweets.length);
+      this.tweets = this.tweets.concat(data.tweets);
+      if (data.status === 'DONE') {
+        this.setState({ data: this.tweets, loading: false });
+        source.close();
+      }
     })
   }
+
 
   downloadTweets(data) {
     this.intervalId = setInterval(() => {
@@ -78,7 +82,7 @@ export default class App extends React.Component {
           app={app}
           loading={this.state.loading}
           error={this.state.error}
-          numTweets={this.state.data.length}
+          numTweets={this.tweets.length}
           handleClick={this.handleClick}
         />
         <ResultView
