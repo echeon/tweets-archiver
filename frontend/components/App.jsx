@@ -4,7 +4,7 @@ import Header from './Header';
 import ResultView from './ResultView';
 import SearchView from './SearchView';
 import * as API from '../utils/api_util';
-import uuidV4 from 'uuid/V4';
+import uuidV4 from 'uuid/v4';
 import qs from 'qs';
 
 export default class App extends React.Component {
