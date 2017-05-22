@@ -27,10 +27,19 @@ export default class ResultTwitter extends React.Component {
       defaultSortName: 'numFollowers',
       defaultSortOrder: 'desc',
       sortIndicator: false,
+      paginationPosition: 'bottom',
     }
 
+    // height={tableHeight}
     return (
-      <BootstrapTable data={this.props.data} height={tableHeight} options={options} striped hover condensed>
+      <BootstrapTable
+        data={this.props.data}
+        options={options}
+        striped
+        hover
+        condensed
+        pagination
+      >
         <TableHeaderColumn
           row='0'
           rowSpan='2'
