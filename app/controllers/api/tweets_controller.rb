@@ -5,30 +5,63 @@ class Api::TweetsController < ApplicationController
   include ActionController::Live
 
   def search
-    @channel = params[:channel]
     @client = TwitterSearch::Client.new
 
     response.headers['Content-Type'] = 'text/event-stream'
-    sse = SSE.new(response.stream, event: @channel)
+    sse = SSE.new(response.stream, event: params[:channel])
+
     begin
       repeat_search = true
-      next_max_id = nil
+      max_id = nil
       while repeat_search
-        search_result = @client.search(next_max_id)['statuses']
+        search_params = generate_search_params(max_id)
+        search_result = @client.search(search_params)
 
-        repeat_search = false if search_result.length < 100
-
-        next_max_id = search_result.map { |t| t['id_str'].to_i }.min - 1
-        sse.write({
-          status: search_result.length < 100 ? 'DONE' : 'IN_PROGRESS',
-          tweets: search_result
-        })
+        if search_result
+          repeat_search = false if search_result['statuses'].length < 100
+          max_id = search_result['statuses'].map { |t| t['id_str'].to_i }.min - 1
+          sse.write({
+            options: search_params,
+            status: search_result['statuses'].length < 100 ? 'DONE' : 'IN_PROGRESS',
+            tweets: search_result['statuses']
+          })
+        else
+          repeat_search = false
+          sse.write({
+            options: search_params,
+            status: 'DONE',
+            tweets: []
+          })
+        end
       end
     rescue IOError
     rescue ClientDisconnected
     ensure
       sse.close
     end
+  end
+
+  private
+
+  def generate_search_params(max_id)
+    # {
+    #   q: 'asdf',
+    #   geocode: '1,1,1mi',
+    #   lang: 'en',
+    #   count: 100,
+    #   until: '2015-07-18',
+    #   since_id: 12345,
+    #   max_id: 12345,
+    # }
+    options = {
+      q: params[:q],
+      lang: 'en',
+      count: 100
+    }
+    options[:until]   = params[:until]   if params[:until]
+    options[:geocode] = params[:geocode] if params[:geocode]
+    options[:max_id]  = max_id           if max_id
+    options
   end
 
   # def fetch_tweets(search_query, search_option)

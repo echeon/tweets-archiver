@@ -8,23 +8,17 @@ module TwitterSearch
       @consumer_secret = ENV['CONSUMER_SECRET']
     end
 
-    def search(max_id = nil)
-      @bearer_token ||= bearer_token
+    def search(search_params)
+      return nil unless search_params[:q]
 
+      @bearer_token ||= bearer_token
       search = @connection.get do |req|
         req.url '/1.1/search/tweets.json'
         req.headers['Authorization'] = "Bearer #{@bearer_token}"
-        req.params = search_params(max_id)
+        req.params = search_params
       end
-      puts "TWITTER SEARCH PERFORMED!!!!!!"
 
       JSON.parse(search.body)
-    end
-    # min_id = search_result['statuses'].map { |t| t['id_str'].to_i }.min
-    # search(min_id - 1) if repeat_search?(search_result)
-
-    def repeat_search?(data)
-      data['statuses'].length == 100
     end
 
     def base_connection
@@ -47,25 +41,6 @@ module TwitterSearch
 
       raise "Wrong token type: #{res_json['token_type']}" unless res_json["token_type"] == 'bearer'
       res_json["access_token"]
-    end
-
-    def search_params(max_id)
-      # {
-      #   q: 'asdf',
-      #   geocode: '1,1,1mi',
-      #   lang: 'en',
-      #   count: 100,
-      #   until: '2015-07-18',
-      #   since_id: 12345,
-      #   max_id: 12345,
-      # }
-      options = {
-        q: '@justinbieber marry me',
-        lang: 'en',
-        count: 100
-      }
-      options[:max_id] = max_id if max_id
-      options
     end
   end
 end

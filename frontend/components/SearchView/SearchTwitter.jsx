@@ -1,13 +1,12 @@
 import React from 'react';
 import SearchParameterList from './SearchParameterList';
 import searchRules from './searchRules';
-import queryString from 'query-string';
 
 export default class SearchTwitter extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      query: '#nyc #coffee',
+      q: '@justinbieber marry me',
       since: '',
       until: '',
       latitude: '',
@@ -37,13 +36,12 @@ export default class SearchTwitter extends React.Component {
   handleClick(action) {
     return e => {
       e.preventDefault();
+      const { q, since, until } = this.state;
       const geocode = this.generateGeocode();
-      const data = {
-        query: this.state.query,
-        since: this.state.since,
-        until: this.state.until,
-      };
-      if (geocode) { data.geocode = geocode }
+      const data = { q };
+      if (since)   { data.q   = `${q} since:${since}` }
+      if (until)   { data.until   = until             }
+      if (geocode) { data.geocode = geocode           }
       this.props.handleClick(action)(data);
     }
   }
@@ -71,8 +69,8 @@ export default class SearchTwitter extends React.Component {
 
     const searchBar = (
       <input
-        value={this.state.query}
-        onChange={this.handleChange('query')}
+        value={this.state.q}
+        onChange={this.handleChange('q')}
         type="text"
       />
     )
@@ -108,7 +106,7 @@ export default class SearchTwitter extends React.Component {
       </a>
     )
 
-    const { query, since, until, location, radius } = this.state;
+    const { q, since, until, location, radius } = this.state;
 
     return (
       <div>
@@ -120,7 +118,7 @@ export default class SearchTwitter extends React.Component {
           <form>
             <div className="form-field">
               <label className="form-field__label" for="search-query">Search</label>
-              <input onChange={this.handleChange('query')} className="form-field__input" type="text" value={query} id="search-query"/>
+              <input onChange={this.handleChange('q')} className="form-field__input" type="text" value={q} id="search-query"/>
               <span></span>
             </div>
             <div className="form-field">
