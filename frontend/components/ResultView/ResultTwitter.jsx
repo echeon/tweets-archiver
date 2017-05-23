@@ -39,6 +39,7 @@ export default class ResultTwitter extends React.Component {
         hover
         condensed
         pagination
+        exportCSV
       >
         <TableHeaderColumn
           row='0'
@@ -63,6 +64,7 @@ export default class ResultTwitter extends React.Component {
           dataAlign='center'
           dataField='dateCreated'
           dataFormat={dateFormatter('created_at')}
+          csvFormat={dateFormatter('created_at')}
           dataSort
           sortFunc={sortFunc('created_at', 'date')}
         >
@@ -75,6 +77,7 @@ export default class ResultTwitter extends React.Component {
           dataAlign='center'
           dataField='timeCreated'
           dataFormat={timeFormatter('created_at')}
+          csvFormat={timeFormatter('created_at')}
           dataSort
           sortFunc={sortFunc('created_at', 'time')}
         >
@@ -86,6 +89,7 @@ export default class ResultTwitter extends React.Component {
           headerAlign='center'
           dataField='screenName'
           dataFormat={linkFormatter(['user', 'screen_name'], 'user')}
+          csvFormat={linkFormatter(['user', 'screen_name'], 'userCSV')}
           tdStyle={tdStyle}
         >
           Screen Name
@@ -96,6 +100,7 @@ export default class ResultTwitter extends React.Component {
           headerAlign='center'
           dataField='username'
           dataFormat={textFormatter(['user', 'name'])}
+          csvFormat={textFormatter(['user', 'name'])}
         >
           Name
         </TableHeaderColumn>
@@ -105,6 +110,7 @@ export default class ResultTwitter extends React.Component {
           headerAlign='center'
           dataField='tweetText'
           dataFormat={linkFormatter('text', 'tweet')}
+          csvFormat={linkFormatter('text', 'tweetCSV')}
           tdStyle={tdStyle}
         >
           Tweet
@@ -116,6 +122,7 @@ export default class ResultTwitter extends React.Component {
           dataAlign='center'
           dataField='numRetweets'
           dataFormat={textFormatter('retweet_count')}
+          csvFormat={textFormatter('retweet_count')}
           dataSort
           sortFunc={sortFunc(['retweet_count'])}
         >
@@ -135,6 +142,7 @@ export default class ResultTwitter extends React.Component {
           dataAlign='center'
           dataField='numFollowers'
           dataFormat={textFormatter(['user', 'followers_count'])}
+          csvFormat={textFormatter(['user', 'followers_count'])}
           dataSort
           sortFunc={sortFunc(['user', 'followers_count'])}
         >
@@ -147,6 +155,7 @@ export default class ResultTwitter extends React.Component {
           dataAlign='center'
           dataField='numFollows'
           dataFormat={textFormatter(['user', 'friends_count'])}
+          csvFormat={textFormatter(['user', 'friends_count'])}
           dataSort
           sortFunc={sortFunc(['user', 'friends_count'])}
         >
@@ -159,6 +168,7 @@ export default class ResultTwitter extends React.Component {
           dataAlign='center'
           dataField='numFavorites'
           dataFormat={textFormatter(['user', 'favourites_count'])}
+          csvFormat={textFormatter(['user', 'favourites_count'])}
           dataSort
           sortFunc={sortFunc(['user', 'favourites_count'])}
         >
@@ -170,6 +180,7 @@ export default class ResultTwitter extends React.Component {
           headerAlign='center'
           dataField='location'
           dataFormat={textFormatter(['user', 'location'])}
+          csvFormat={textFormatter(['user', 'location'])}
           tdStyle={tdStyle}
           >
           Location
@@ -181,6 +192,7 @@ export default class ResultTwitter extends React.Component {
           dataAlign='center'
           dataField='memberSince'
           dataFormat={dateFormatter(['user', 'created_at'])}
+          csvFormat={dateFormatter(['user', 'created_at'])}
           dataSort
           sortFunc={sortFunc(['user', 'created_at'], 'date')}
         >

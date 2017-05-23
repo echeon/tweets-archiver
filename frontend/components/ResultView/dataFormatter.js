@@ -24,6 +24,10 @@ export const linkFormatter = (accessor, linkType) => (cell, row) => {
       return `<a href="https://twitter.com/${value}" target="_blank">@${value}</a>`;
     case 'tweet':
       return `<a href="https://twitter.com/${row.user.screen_name}/status/${row.id_str}" target="_blank">${value}</a>`;
+    case 'userCSV':
+      return `https://twitter.com/${value}`;
+    case 'tweetCSV':
+      return `https://twitter.com/${row.user.screen_name}/status/${row.id_str}`;
     default:
       return value;
   }
