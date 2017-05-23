@@ -39,7 +39,6 @@ export default class ResultTwitter extends React.Component {
         hover
         condensed
         pagination
-        exportCSV
       >
         <TableHeaderColumn
           row='0'
