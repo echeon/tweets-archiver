@@ -51,7 +51,7 @@ export default class ResultTwitter extends React.Component {
         </TableHeaderColumn>
         <TableHeaderColumn
           row='0'
-          colSpan='6'
+          colSpan='7'
           headerAlign='center'
         >
           Tweet Details
@@ -126,6 +126,19 @@ export default class ResultTwitter extends React.Component {
           sortFunc={sortFunc(['retweet_count'])}
         >
           # Retweets
+        </TableHeaderColumn>
+        <TableHeaderColumn
+          row='1'
+          columnClassName='width-100'
+          headerAlign='center'
+          dataAlign='center'
+          dataField='numLikes'
+          dataFormat={textFormatter('favorite_count')}
+          csvFormat={textFormatter('favorite_count')}
+          dataSort
+          sortFunc={sortFunc(['favorite_count'])}
+        >
+          # Likes
         </TableHeaderColumn>
         <TableHeaderColumn
           row='0'
