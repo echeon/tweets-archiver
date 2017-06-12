@@ -2,6 +2,7 @@ import React from 'react';
 // import data from './sampleData';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import {
+  parsedDateFormatter,
   dateFormatter,
   timeFormatter,
   textFormatter,
@@ -12,6 +13,23 @@ import { sortFunc } from './helpers';
 export default class ResultTwitter extends React.Component {
   constructor(props) {
     super(props);
+    this.cleanFilter = this.cleanFilter.bind(this);
+    this.filterByTime = this.filterByTime.bind(this);
+  }
+
+  cleanFilter() {
+    this.refs.parsedDate.cleanFiltered();
+  }
+
+  filterByTime(numHours) {
+    return () => {
+      const timeNow = Date.now();
+      const numMilliseconds = numHours * 60 * 60 * 1000;
+      this.refs.parsedDate.applyFilter({
+        comparator: '>=',
+        number: timeNow - numMilliseconds,
+      });
+    }
   }
 
   render() {
@@ -32,6 +50,11 @@ export default class ResultTwitter extends React.Component {
 
     // height={tableHeight}
     return (
+      <div>
+      <button onClick={this.cleanFilter}>Clear Filter</button>
+      <button onClick={this.filterByTime(1)}>Last Hour</button>
+      <button onClick={this.filterByTime(2)}>Last 2 Hours</button>
+      <button onClick={this.filterByTime(5)}>Last 5 Hours</button>
       <BootstrapTable
         data={this.props.data}
         options={options}
@@ -48,6 +71,18 @@ export default class ResultTwitter extends React.Component {
           hidden
         >
           ID
+        </TableHeaderColumn>
+        <TableHeaderColumn
+          ref='parsedDate'
+          row='0'
+          rowSpan='2'
+          dataField='parsedDate'
+          dataFormat={parsedDateFormatter('created_at')}
+          filter={{type: 'NumberFilter'}}
+          filterFormatted
+          hidden
+        >
+          Full Date
         </TableHeaderColumn>
         <TableHeaderColumn
           row='0'
@@ -211,6 +246,7 @@ export default class ResultTwitter extends React.Component {
           Member Since
         </TableHeaderColumn>
       </BootstrapTable>
+      </div>
     );
   }
 }

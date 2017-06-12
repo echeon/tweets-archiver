@@ -1,6 +1,11 @@
 import dateFormat from 'dateformat';
 import { getValue } from './helpers';
 
+export const parsedDateFormatter = accessor => (cell, row) => {
+  const value = getValue(row, accessor);
+  return Date.parse(new Date(value));
+}
+
 export const dateFormatter = accessor => (cell, row) => {
   const value = getValue(row, accessor);
   return dateFormat(new Date(value), 'yyyy-mm-dd');
